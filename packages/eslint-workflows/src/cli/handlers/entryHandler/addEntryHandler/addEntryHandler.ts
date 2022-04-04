@@ -4,8 +4,11 @@ import {
   getAvailableRuleIds,
   getFilenamesByRuleId,
   getOwners,
+  makeBaseWorkflowEntry,
+  WorkflowEntry,
 } from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
+import { CommonConfig } from "../../../../common/rcfile/typedefs";
 
 export const addEntryHandler: CommandHandler = async () => {
   console.log("entry - add");
@@ -21,9 +24,22 @@ export const addEntryHandler: CommandHandler = async () => {
     options: availableRuleIds,
   });
 
+  const newWorkflowEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
+};
+
+const makeNewWorkflowEntry = (
+  commonConfig: CommonConfig,
+  selectedRuleId: string
+): WorkflowEntry => {
+  const { eslintOutput, codeowners } = commonConfig;
+
   const matchingFileNames = getFilenamesByRuleId(eslintOutput, selectedRuleId);
   console.log(matchingFileNames);
 
   const owners = getOwners(codeowners);
-  console.log(owners)
+  console.log(owners);
+
+  const baseWorkflowEntry = makeBaseWorkflowEntry(selectedRuleId, owners);
+  console.log(baseWorkflowEntry);
+  return baseWorkflowEntry;
 };
