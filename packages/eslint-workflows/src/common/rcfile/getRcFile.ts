@@ -8,6 +8,7 @@ export const getRcFile = (): RcFile => {
   const modifiedRcFile: RcFile = {
     codeownersPath: handlePath(rcFile.codeownersPath),
     eslintOutputPath: handlePath(rcFile.eslintOutputPath),
+    workflowsEntriesPath: handlePath(rcFile.workflowsEntriesPath),
   };
   return modifiedRcFile;
 };
