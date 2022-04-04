@@ -7,13 +7,16 @@ import {
   makeBaseWorkflowEntry,
   WorkflowEntry,
   getMatchingOwner,
+  WorkflowEntries,
+  saveWorkflowsEntries,
+  stripPrefixSlash,
 } from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
 
 export const addEntryHandler: CommandHandler = async () => {
   const commonConfig = getCommonConfig();
-  const { eslintOutput } = commonConfig;
+  const { eslintOutput, workflowsEntries, rcFile } = commonConfig;
 
   const availableRuleIds = getAvailableRuleIds(eslintOutput);
   const selectedRuleId = await showSelectPrompt({
@@ -22,6 +25,12 @@ export const addEntryHandler: CommandHandler = async () => {
   });
 
   const newEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
+  const updatedYml: WorkflowEntries = {
+    ...workflowsEntries,
+    entries: [...workflowsEntries.entries, newEntry],
+  };
+
+  saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
 };
 
 const makeNewWorkflowEntry = (
@@ -39,7 +48,8 @@ const makeNewWorkflowEntry = (
     const { owners } = matchingOwner;
 
     owners.forEach((owner) => {
-      acc.teams[owner].files.push(fileName);
+      const withoutPrefixSlash = stripPrefixSlash(fileName);
+      acc.teams[owner].files.push(withoutPrefixSlash);
     });
 
     return acc;
