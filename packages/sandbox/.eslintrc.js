@@ -1,4 +1,8 @@
+const { getWorkflowOverrides } = require("@nossbigg/eslint-workflows");
+
 const makeConfig = () => {
+  const workflowOverrides = getWorkflowOverrides();
+
   const config = {
     parserOptions: {
       ecmaVersion: 2016,
@@ -7,6 +11,7 @@ const makeConfig = () => {
       node: true,
     },
     extends: ["eslint:recommended"],
+    overrides: [...workflowOverrides],
   };
   return config;
 };
