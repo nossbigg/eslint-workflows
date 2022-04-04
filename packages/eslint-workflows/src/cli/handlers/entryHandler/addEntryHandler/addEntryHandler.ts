@@ -6,6 +6,7 @@ import {
   getOwners,
   makeBaseWorkflowEntry,
   WorkflowEntry,
+  getMatchingOwner,
 } from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
@@ -16,7 +17,7 @@ export const addEntryHandler: CommandHandler = async () => {
   const commonConfig = getCommonConfig();
   console.log(commonConfig);
 
-  const { eslintOutput, codeowners } = commonConfig;
+  const { eslintOutput } = commonConfig;
   const availableRuleIds = getAvailableRuleIds(eslintOutput);
 
   const selectedRuleId = await showSelectPrompt({
@@ -24,7 +25,8 @@ export const addEntryHandler: CommandHandler = async () => {
     options: availableRuleIds,
   });
 
-  const newWorkflowEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
+  const newEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
+  console.log(newEntry);
 };
 
 const makeNewWorkflowEntry = (
@@ -41,5 +43,18 @@ const makeNewWorkflowEntry = (
 
   const baseWorkflowEntry = makeBaseWorkflowEntry(selectedRuleId, owners);
   console.log(baseWorkflowEntry);
-  return baseWorkflowEntry;
+
+  const withMatchedOwners = matchingFileNames.reduce((acc, fileName) => {
+    const matchingOwner = getMatchingOwner(codeowners, fileName);
+    const { owners } = matchingOwner;
+
+    owners.forEach((owner) => {
+      acc.teams[owner].files.push(fileName);
+    });
+
+    return acc;
+  }, baseWorkflowEntry);
+  console.log(withMatchedOwners);
+
+  return withMatchedOwners;
 };
