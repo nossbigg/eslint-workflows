@@ -2,6 +2,14 @@
   "name": "@nossbigg/eslint-workflows",
   "private": false,
   "version": "0.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "cleanDist": "rm -rf dist/",
+    "build": "yarn cleanDist && tsc",
+    "dev": "yarn cleanDist && tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.3"
+  }
 }
