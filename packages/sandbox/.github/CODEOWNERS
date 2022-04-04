@@ -1,0 +1,4 @@
+/src/team-a @team-a
+/src/team-b @team-b
+
+/src/common @team-a @team-b
