@@ -33,7 +33,7 @@ const trimLines = (line: string) => line.trim();
 const dropEmptyLines = (line: string): boolean => line.length > 0;
 
 const splitToPatternOwners = (line: string): Codeowner => {
-  const [pattern, ...owner] = line.split(" ");
-  return { pattern, owner };
+  const [pattern, ...owners] = line.split(" ");
+  return { pattern, owners };
 };
-const dropEmptyOwners = (entry: Codeowner): boolean => entry.owner.length > 0;
+const dropEmptyOwners = (entry: Codeowner): boolean => entry.owners.length > 0;

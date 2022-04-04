@@ -4,5 +4,5 @@ export type Codeowners = {
 
 export type Codeowner = {
   pattern: string;
-  owner: string[];
+  owners: string[];
 };
