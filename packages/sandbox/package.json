@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint 'src/**/*.js'",
+    "lint:json": "yarn lint --format=json-with-metadata --output-file='./eslint-workflows/eslint-output.json'",
     "ew": "eslint-workflows"
   },
   "devDependencies": {
