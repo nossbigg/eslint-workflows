@@ -1,5 +1,9 @@
 import { CommandHandler } from "../../typedefs";
-import { getCommonConfig, getAvailableRuleIds } from "../../../../common";
+import {
+  getCommonConfig,
+  getAvailableRuleIds,
+  getFilenamesByRuleId,
+} from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
 
 export const addEntryHandler: CommandHandler = async () => {
@@ -15,5 +19,7 @@ export const addEntryHandler: CommandHandler = async () => {
     message: "Select rule to add",
     options: availableRuleIds,
   });
-  console.log(selectedRuleId);
+
+  const matchingFileNames = getFilenamesByRuleId(eslintOutput, selectedRuleId);
+  console.log(matchingFileNames);
 };
