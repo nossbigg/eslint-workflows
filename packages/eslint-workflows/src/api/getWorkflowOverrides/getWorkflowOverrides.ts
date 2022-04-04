@@ -3,6 +3,11 @@ import { getCommonConfig, getWorkflowsEntries } from "../../common";
 import { WorkflowOverride } from "./typedefs";
 
 export const getWorkflowOverrides = (): WorkflowOverride[] => {
+  const isDisabled = isOverridesDisabled();
+  if (isDisabled) {
+    return [];
+  }
+
   const { rcFile } = getCommonConfig();
   const { workflowsEntriesPath } = rcFile;
 
@@ -19,4 +24,10 @@ export const getWorkflowOverrides = (): WorkflowOverride[] => {
     return overrideConfig;
   });
   return overrides;
+};
+
+const isOverridesDisabled = (): boolean => {
+  const envVar = process.env.ESLINT_WORKFLOWS_DISABLE;
+  const isDisabled = envVar === "1" || envVar === "true";
+  return isDisabled;
 };
