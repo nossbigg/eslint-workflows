@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "bin": {
-    "eslint-workflows": "./dist/index.js"
+    "eslint-workflows": "./dist/cli-entry.js"
   },
   "license": "MIT",
   "scripts": {
@@ -13,6 +13,10 @@
     "dev": "yarn cleanDist && tsc --watch"
   },
   "devDependencies": {
+    "@types/yargs": "^17.0.10",
     "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "yargs": "^17.4.0"
   }
 }
