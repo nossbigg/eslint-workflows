@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { NO_OWNER_NAME } from "../codeowners/constants";
-import { WorkflowEntries, WorkflowEntry } from "./typedefs";
+import { WorkflowEntries, WorkflowEntry, WorkflowTeamEntry } from "./typedefs";
 
 // WorkflowEntries
 export const getWorkflowsEntriesRuleIds = (
@@ -59,6 +59,19 @@ export const getWorkflowEntryTeams = (entry: WorkflowEntry): string[] => {
   return result;
 };
 
+export const getWorkflowEntryTeamFiles = (
+  entry: WorkflowEntry,
+  team: string
+): string[] => {
+  const teamEntry = entry.teams[team];
+  if (!teamEntry) {
+    return [];
+  }
+
+  const result = teamEntry.files;
+  return result;
+};
+
 export const removeTeamsFromWorkflowEntry = (
   entry: WorkflowEntry,
   teams: string[]
@@ -66,6 +79,32 @@ export const removeTeamsFromWorkflowEntry = (
   const withoutTeam = _.omit(entry.teams, teams);
   const result: WorkflowEntry = { ...entry, teams: withoutTeam };
   return result;
+};
+
+export const removeTeamFilesFromWorkflowEntry = (
+  entry: WorkflowEntry,
+  teamId: string,
+  fileNames: string[]
+): WorkflowEntry => {
+  const matchingTeam = entry.teams[teamId];
+  if (!matchingTeam) {
+    return entry;
+  }
+
+  const fileNamesSet = new Set(fileNames);
+  const withFilteredFiles = matchingTeam.files.filter(
+    (f) => !fileNamesSet.has(f)
+  );
+
+  const updatedTeam: WorkflowTeamEntry = {
+    ...matchingTeam,
+    files: withFilteredFiles,
+  };
+  const updatedEntry: WorkflowEntry = {
+    ...entry,
+    teams: { ...entry.teams, [teamId]: updatedTeam },
+  };
+  return updatedEntry;
 };
 
 // seed data
