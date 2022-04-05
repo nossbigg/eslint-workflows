@@ -9,7 +9,7 @@ import {
   WorkflowEntries,
   WorkflowEntry,
 } from "../../../../common";
-import { showSelectPrompt } from "../../../prompts";
+import { showMultiSelectPrompt, showSelectPrompt } from "../../../prompts";
 import { CommandHandler } from "../../typedefs";
 
 export const removeEntryTeam: CommandHandler = async () => {
@@ -31,14 +31,14 @@ export const removeEntryTeam: CommandHandler = async () => {
   }
 
   const teamIds = getWorkflowEntryTeams(matchingEntry);
-  const selectedTeam = await showSelectPrompt({
-    message: "Select team",
+  const selectedTeams = await showMultiSelectPrompt({
+    message: "Select team(s)",
     options: teamIds,
   });
 
   const updatedEntry: WorkflowEntry = removeTeamsFromWorkflowEntry(
     matchingEntry,
-    [selectedTeam]
+    selectedTeams
   );
   const updatedYml: WorkflowEntries = replaceWorkflowEntryByRuleId(
     workflowsEntries,
