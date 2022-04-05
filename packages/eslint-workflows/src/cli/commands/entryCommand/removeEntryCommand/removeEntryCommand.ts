@@ -1,14 +1,14 @@
 import { showSelectPrompt } from "../../../prompts";
 import { CommandHandler } from "../../typedefs";
+import { RemoveAction } from "./typedefs";
 import { removeEntireEntry } from "./removeEntireEntry";
 import { removeEntryTeam } from "./removeEntryTeam";
 import { removeEntryTeamFile } from "./removeEntryTeamFile";
-import { RemoveAction } from "./typedefs";
 
 const REMOVE_ACTION_OPTIONS: RemoveAction[] = [
-  "Entry",
-  "Entry > Team",
   "Entry > Team > File",
+  "Entry > Team",
+  "Entry",
 ];
 
 const ACTION_MAPPER: Record<RemoveAction, CommandHandler> = {
@@ -24,5 +24,8 @@ export const removeEntryCommand: CommandHandler = async (argv) => {
   });
 
   const handler = ACTION_MAPPER[selectedAction as RemoveAction];
+  if (!handler) {
+    return;
+  }
   await handler(argv);
 };
