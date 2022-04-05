@@ -2,6 +2,7 @@ import { noop } from "lodash";
 import { showSelectPrompt } from "../../../prompts";
 import { CommandHandler } from "../../typedefs";
 import { removeEntireEntry } from "./removeEntireEntry";
+import { removeEntryTeam } from "./removeEntryTeam";
 import { RemoveAction } from "./typedefs";
 
 const REMOVE_ACTION_OPTIONS: RemoveAction[] = [
@@ -12,7 +13,7 @@ const REMOVE_ACTION_OPTIONS: RemoveAction[] = [
 
 const ACTION_MAPPER: Record<RemoveAction, CommandHandler> = {
   Entry: removeEntireEntry,
-  "Entry > Team": noop,
+  "Entry > Team": removeEntryTeam,
   "Entry > Team > File": noop,
 };
 
