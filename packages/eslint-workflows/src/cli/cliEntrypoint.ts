@@ -1,6 +1,10 @@
 import _ from "lodash";
 import yargs from "yargs";
-import { addEntryCommand, removeEntryCommand } from "./commands";
+import {
+  addEntryCommand,
+  removeEntryCommand,
+  fmtEntryCommand,
+} from "./commands";
 
 const { noop } = _;
 
@@ -15,7 +19,8 @@ export const cliEntrypoint = (): void => {
           "Remove an entry or part of an entry",
           noop,
           removeEntryCommand
-        );
+        )
+        .command("fmt", "Applies formatter to yml file", noop, fmtEntryCommand);
     })
     .demandCommand()
     .recommendCommands()
