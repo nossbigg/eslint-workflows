@@ -1,7 +1,8 @@
+import _ from "lodash";
 import yargs from "yargs";
-import { addEntryCommand } from "./commands";
+import { addEntryCommand, removeEntryCommand } from "./commands";
 
-const noop = () => undefined;
+const { noop } = _;
 
 export const cliEntrypoint = (): void => {
   yargs
@@ -9,7 +10,12 @@ export const cliEntrypoint = (): void => {
     .command("entry", "Interact with entries.yml file", (yargs) => {
       return yargs
         .command("add", "Add an entry", noop, addEntryCommand)
-        .demandCommand();
+        .command(
+          "remove",
+          "Remove an entry or part of an entry",
+          noop,
+          removeEntryCommand
+        );
     })
     .demandCommand()
     .recommendCommands()
