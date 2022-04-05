@@ -17,6 +17,7 @@ export const showMultiSelectPrompt = async (
     name: "value",
     message,
     choices,
+    min: 1,
   });
   return value as string[];
 };
