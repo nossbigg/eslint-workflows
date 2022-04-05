@@ -1,6 +1,6 @@
 import fs from "fs";
 import yaml, { DumpOptions } from "js-yaml";
-import { WorkflowEntries } from "./typedefs";
+import { WorkflowsEntries } from "./typedefs";
 
 const yamlDumpOpts: DumpOptions = {
   // do not break lines for long file names
@@ -10,7 +10,7 @@ const yamlDumpOpts: DumpOptions = {
 
 export const saveWorkflowsEntries = (
   filePath: string,
-  workflowsEntries: WorkflowEntries
+  workflowsEntries: WorkflowsEntries
 ): void => {
   const output = yaml.dump(workflowsEntries, yamlDumpOpts);
   fs.writeFileSync(filePath, output);

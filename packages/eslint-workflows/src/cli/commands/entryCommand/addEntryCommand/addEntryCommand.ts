@@ -5,9 +5,9 @@ import {
   getFilenamesByRuleId,
   getOwners,
   makeBaseWorkflowEntry,
-  WorkflowEntry,
+  WorkflowsEntry,
   getMatchingOwner,
-  WorkflowEntries,
+  WorkflowsEntries,
   saveWorkflowsEntries,
   stripPrefixSlash,
 } from "../../../../common";
@@ -25,7 +25,7 @@ export const addEntryCommand: CommandHandler = async () => {
   });
 
   const newEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
-  const updatedYml: WorkflowEntries = {
+  const updatedYml: WorkflowsEntries = {
     ...workflowsEntries,
     entries: [...workflowsEntries.entries, newEntry],
   };
@@ -36,7 +36,7 @@ export const addEntryCommand: CommandHandler = async () => {
 const makeNewWorkflowEntry = (
   commonConfig: CommonConfig,
   selectedRuleId: string
-): WorkflowEntry => {
+): WorkflowsEntry => {
   const { eslintOutput, codeowners } = commonConfig;
 
   const matchingFileNames = getFilenamesByRuleId(eslintOutput, selectedRuleId);

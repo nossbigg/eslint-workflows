@@ -3,7 +3,7 @@ import {
   getWorkflowsEntriesRuleIds,
   removeWorkflowEntryByRuleId,
   saveWorkflowsEntries,
-  WorkflowEntries,
+  WorkflowsEntries,
 } from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
 import { CommandHandler } from "../../typedefs";
@@ -18,7 +18,7 @@ export const removeEntireEntry: CommandHandler = async () => {
     options: entriesRuleIds,
   });
 
-  const updatedYml: WorkflowEntries = removeWorkflowEntryByRuleId(
+  const updatedYml: WorkflowsEntries = removeWorkflowEntryByRuleId(
     workflowsEntries,
     selectedRuleId
   );

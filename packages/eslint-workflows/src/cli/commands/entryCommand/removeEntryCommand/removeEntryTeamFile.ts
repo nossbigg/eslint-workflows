@@ -7,8 +7,8 @@ import {
   removeTeamFilesFromWorkflowEntry,
   replaceWorkflowEntryByRuleId,
   saveWorkflowsEntries,
-  WorkflowEntries,
-  WorkflowEntry,
+  WorkflowsEntries,
+  WorkflowsEntry,
 } from "../../../../common";
 import { showMultiSelectPrompt, showSelectPrompt } from "../../../prompts";
 import { CommandHandler } from "../../typedefs";
@@ -43,12 +43,12 @@ export const removeEntryTeamFile: CommandHandler = async () => {
     options: fileNames,
   });
 
-  const updatedEntry: WorkflowEntry = removeTeamFilesFromWorkflowEntry(
+  const updatedEntry: WorkflowsEntry = removeTeamFilesFromWorkflowEntry(
     matchingEntry,
     selectedTeam,
     selectedFiles
   );
-  const updatedYml: WorkflowEntries = replaceWorkflowEntryByRuleId(
+  const updatedYml: WorkflowsEntries = replaceWorkflowEntryByRuleId(
     workflowsEntries,
     selectedRuleId,
     updatedEntry

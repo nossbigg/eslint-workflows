@@ -1,28 +1,28 @@
 import _ from "lodash";
 import { NO_OWNER_NAME } from "../codeowners/constants";
-import { WorkflowEntries, WorkflowEntry, WorkflowTeamEntry } from "./typedefs";
+import { WorkflowsEntries, WorkflowsEntry, WorkflowsTeamEntry } from "./typedefs";
 
 // WorkflowEntries
 export const getWorkflowsEntriesRuleIds = (
-  workflowsEntries: WorkflowEntries
+  workflowsEntries: WorkflowsEntries
 ): string[] => {
   const result = workflowsEntries.entries.map((e) => e.ruleId);
   return result;
 };
 
 export const findWorkflowEntryByRuleId = (
-  workflowsEntries: WorkflowEntries,
+  workflowsEntries: WorkflowsEntries,
   targetRuleId: string
-): WorkflowEntry | undefined => {
+): WorkflowsEntry | undefined => {
   const entry = workflowsEntries.entries.find((e) => e.ruleId === targetRuleId);
   return entry;
 };
 
 export const replaceWorkflowEntryByRuleId = (
-  workflowsEntries: WorkflowEntries,
+  workflowsEntries: WorkflowsEntries,
   targetRuleId: string,
-  newEntry: WorkflowEntry
-): WorkflowEntries => {
+  newEntry: WorkflowsEntry
+): WorkflowsEntries => {
   const withReplacedEntry = workflowsEntries.entries.map((entry) => {
     const isTargetEntry = entry.ruleId === targetRuleId;
     if (!isTargetEntry) {
@@ -31,7 +31,7 @@ export const replaceWorkflowEntryByRuleId = (
     return newEntry;
   });
 
-  const result: WorkflowEntries = {
+  const result: WorkflowsEntries = {
     ...workflowsEntries,
     entries: withReplacedEntry,
   };
@@ -39,14 +39,14 @@ export const replaceWorkflowEntryByRuleId = (
 };
 
 export const removeWorkflowEntryByRuleId = (
-  workflowsEntries: WorkflowEntries,
+  workflowsEntries: WorkflowsEntries,
   targetRuleId: string
-): WorkflowEntries => {
+): WorkflowsEntries => {
   const withoutEntry = workflowsEntries.entries.filter(
     (e) => e.ruleId !== targetRuleId
   );
 
-  const result: WorkflowEntries = {
+  const result: WorkflowsEntries = {
     ...workflowsEntries,
     entries: withoutEntry,
   };
@@ -54,13 +54,13 @@ export const removeWorkflowEntryByRuleId = (
 };
 
 // WorkflowEntry
-export const getWorkflowEntryTeams = (entry: WorkflowEntry): string[] => {
+export const getWorkflowEntryTeams = (entry: WorkflowsEntry): string[] => {
   const result = Object.keys(entry.teams);
   return result;
 };
 
 export const getWorkflowEntryTeamFiles = (
-  entry: WorkflowEntry,
+  entry: WorkflowsEntry,
   team: string
 ): string[] => {
   const teamEntry = entry.teams[team];
@@ -73,19 +73,19 @@ export const getWorkflowEntryTeamFiles = (
 };
 
 export const removeTeamsFromWorkflowEntry = (
-  entry: WorkflowEntry,
+  entry: WorkflowsEntry,
   teams: string[]
-): WorkflowEntry => {
+): WorkflowsEntry => {
   const withoutTeam = _.omit(entry.teams, teams);
-  const result: WorkflowEntry = { ...entry, teams: withoutTeam };
+  const result: WorkflowsEntry = { ...entry, teams: withoutTeam };
   return result;
 };
 
 export const removeTeamFilesFromWorkflowEntry = (
-  entry: WorkflowEntry,
+  entry: WorkflowsEntry,
   teamId: string,
   fileNames: string[]
-): WorkflowEntry => {
+): WorkflowsEntry => {
   const matchingTeam = entry.teams[teamId];
   if (!matchingTeam) {
     return entry;
@@ -96,11 +96,11 @@ export const removeTeamFilesFromWorkflowEntry = (
     (f) => !fileNamesSet.has(f)
   );
 
-  const updatedTeam: WorkflowTeamEntry = {
+  const updatedTeam: WorkflowsTeamEntry = {
     ...matchingTeam,
     files: withFilteredFiles,
   };
-  const updatedEntry: WorkflowEntry = {
+  const updatedEntry: WorkflowsEntry = {
     ...entry,
     teams: { ...entry.teams, [teamId]: updatedTeam },
   };
@@ -111,18 +111,18 @@ export const removeTeamFilesFromWorkflowEntry = (
 export const makeBaseWorkflowEntry = (
   ruleId: string,
   teamNames: string[]
-): WorkflowEntry => {
+): WorkflowsEntry => {
   const teams = teamNames.reduce(
     (acc, teamName) => {
-      const res: WorkflowEntry["teams"] = { ...acc, [teamName]: { files: [] } };
+      const res: WorkflowsEntry["teams"] = { ...acc, [teamName]: { files: [] } };
       return res;
     },
     {
       [NO_OWNER_NAME]: { files: [] },
-    } as WorkflowEntry["teams"]
+    } as WorkflowsEntry["teams"]
   );
 
-  const entry: WorkflowEntry = {
+  const entry: WorkflowsEntry = {
     ruleId,
     teams,
   };

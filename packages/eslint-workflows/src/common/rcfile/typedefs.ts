@@ -1,6 +1,6 @@
 import { Codeowners } from "../codeowners";
 import { EslintOutput } from "../eslint";
-import { WorkflowEntries } from "../workflows-entries";
+import { WorkflowsEntries } from "../workflows-entries";
 
 export type RcFile = {
   eslintOutputPath: string;
@@ -12,5 +12,5 @@ export type CommonConfig = {
   rcFile: RcFile;
   eslintOutput: EslintOutput;
   codeowners: Codeowners;
-  workflowsEntries: WorkflowEntries;
+  workflowsEntries: WorkflowsEntries;
 };

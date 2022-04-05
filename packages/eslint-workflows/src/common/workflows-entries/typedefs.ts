@@ -1,12 +1,12 @@
-export type WorkflowEntries = {
-  entries: WorkflowEntry[];
+export type WorkflowsEntries = {
+  entries: WorkflowsEntry[];
 };
 
-export type WorkflowEntry = {
+export type WorkflowsEntry = {
   ruleId: string;
-  teams: Record<string, WorkflowTeamEntry>;
+  teams: Record<string, WorkflowsTeamEntry>;
 };
 
-export type WorkflowTeamEntry = {
+export type WorkflowsTeamEntry = {
   files: string[];
 };

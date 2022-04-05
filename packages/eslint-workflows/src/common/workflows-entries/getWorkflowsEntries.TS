@@ -1,9 +1,9 @@
 import fs from "fs";
 import yaml from "js-yaml";
-import { WorkflowEntries } from "./typedefs";
+import { WorkflowsEntries } from "./typedefs";
 
-export const getWorkflowsEntries = (filePath: string): WorkflowEntries => {
+export const getWorkflowsEntries = (filePath: string): WorkflowsEntries => {
   const fileRaw = fs.readFileSync(filePath).toString("utf8");
-  const json: WorkflowEntries = yaml.load(fileRaw) as WorkflowEntries;
+  const json: WorkflowsEntries = yaml.load(fileRaw) as WorkflowsEntries;
   return json;
 };
