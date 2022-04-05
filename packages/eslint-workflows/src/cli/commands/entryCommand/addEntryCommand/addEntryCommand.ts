@@ -14,7 +14,7 @@ import {
 import { showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
 
-export const addEntryHandler: CommandHandler = async () => {
+export const addEntryCommand: CommandHandler = async () => {
   const commonConfig = getCommonConfig();
   const { eslintOutput, workflowsEntries, rcFile } = commonConfig;
 

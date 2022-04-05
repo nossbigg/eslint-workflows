@@ -1,5 +1,5 @@
 import yargs from "yargs";
-import { addEntryHandler } from "./handlers";
+import { addEntryCommand } from "./commands";
 
 const noop = () => undefined;
 
@@ -8,7 +8,7 @@ export const cliEntrypoint = (): void => {
     .scriptName("eslint-workflows")
     .command("entry", "Interact with entries.yml file", (yargs) => {
       return yargs
-        .command("add", "Add an entry", noop, addEntryHandler)
+        .command("add", "Add an entry", noop, addEntryCommand)
         .demandCommand();
     })
     .demandCommand()
