@@ -1,6 +1,10 @@
 import _ from "lodash";
 import { NO_OWNER_NAME } from "../codeowners/constants";
-import { WorkflowsEntries, WorkflowsEntry, WorkflowsTeamEntry } from "./typedefs";
+import {
+  WorkflowsEntries,
+  WorkflowsEntry,
+  WorkflowsTeamEntry,
+} from "./typedefs";
 
 // WorkflowEntries
 export const getWorkflowsEntriesRuleIds = (
@@ -83,26 +87,30 @@ export const removeTeamsFromWorkflowEntry = (
 
 export const removeTeamFilesFromWorkflowEntry = (
   entry: WorkflowsEntry,
-  teamId: string,
   fileNames: string[]
 ): WorkflowsEntry => {
-  const matchingTeam = entry.teams[teamId];
-  if (!matchingTeam) {
-    return entry;
-  }
-
   const fileNamesSet = new Set(fileNames);
-  const withFilteredFiles = matchingTeam.files.filter(
-    (f) => !fileNamesSet.has(f)
+
+  const teamKeys: string[] = Object.keys(entry.teams);
+  const updatedTeams: WorkflowsEntry["teams"] = teamKeys.reduce(
+    (acc, teamKey) => {
+      const team = entry.teams[teamKey];
+      const filteredFiles = team.files.filter(
+        (fileName) => !fileNamesSet.has(fileName)
+      );
+      const updatedTeam: WorkflowsTeamEntry = { ...team, files: filteredFiles };
+      const result: WorkflowsEntry["teams"] = {
+        ...acc,
+        [teamKey]: updatedTeam,
+      };
+      return result;
+    },
+    {}
   );
 
-  const updatedTeam: WorkflowsTeamEntry = {
-    ...matchingTeam,
-    files: withFilteredFiles,
-  };
   const updatedEntry: WorkflowsEntry = {
     ...entry,
-    teams: { ...entry.teams, [teamId]: updatedTeam },
+    teams: updatedTeams,
   };
   return updatedEntry;
 };
@@ -114,7 +122,10 @@ export const makeBaseWorkflowEntry = (
 ): WorkflowsEntry => {
   const teams = teamNames.reduce(
     (acc, teamName) => {
-      const res: WorkflowsEntry["teams"] = { ...acc, [teamName]: { files: [] } };
+      const res: WorkflowsEntry["teams"] = {
+        ...acc,
+        [teamName]: { files: [] },
+      };
       return res;
     },
     {

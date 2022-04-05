@@ -45,7 +45,6 @@ export const removeEntryTeamFile: CommandHandler = async () => {
 
   const updatedEntry: WorkflowsEntry = removeTeamFilesFromWorkflowEntry(
     matchingEntry,
-    selectedTeam,
     selectedFiles
   );
   const updatedYml: WorkflowsEntries = replaceWorkflowEntryByRuleId(
