@@ -4,6 +4,7 @@ import {
   addEntryCommand,
   removeEntryCommand,
   fmtEntryCommand,
+  initCommand,
 } from "./commands";
 
 const { noop } = _;
@@ -22,6 +23,12 @@ export const cliEntrypoint = (): void => {
         )
         .command("fmt", "Applies formatter to yml file", noop, fmtEntryCommand);
     })
+    .command(
+      "init",
+      "Sets up eslint-workflows for current project",
+      noop,
+      initCommand
+    )
     .demandCommand()
     .recommendCommands()
     .strict().argv;
