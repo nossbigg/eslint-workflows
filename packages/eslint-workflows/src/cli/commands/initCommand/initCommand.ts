@@ -13,6 +13,11 @@ export const initCommand: CommandHandler = async () => {
   // check package.json present
   // check eslint-workflows-entries.yml present
   const projectRoot = getProjectRoot();
+  const rcFilePath = makePath(
+    projectRoot,
+    "eslint-workflows",
+    ".eslint-workflowsrc.js"
+  );
   const codeownersPath = await getCodeownersPath(projectRoot);
 
   const defaultRcFile: RcFile = {
@@ -21,7 +26,7 @@ export const initCommand: CommandHandler = async () => {
     workflowsEntriesPath: "eslint-workflows/eslint-workflows-entries.yml",
   };
 
-  makeConfigFiles(projectRoot, defaultRcFile);
+  makeConfigFiles(rcFilePath, defaultRcFile);
   showPostSetupMessages(defaultRcFile);
 };
 
