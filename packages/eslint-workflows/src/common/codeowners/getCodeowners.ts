@@ -1,7 +1,12 @@
 import fs from "fs";
+import { EMPTY_CODEOWNERS } from "./constants";
 import { Codeowner, Codeowners } from "./typedefs";
 
-export const getCodeowners = (filePath: string): Codeowners => {
+export const getCodeowners = (filePath: string | undefined): Codeowners => {
+  if (filePath === undefined) {
+    return EMPTY_CODEOWNERS;
+  }
+
   const fileRaw = fs.readFileSync(filePath).toString("utf8");
   const result: Codeowners = parseCodeownersFile(fileRaw);
   return result;

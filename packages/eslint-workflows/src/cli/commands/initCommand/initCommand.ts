@@ -8,21 +8,24 @@ import {
   WorkflowsEntries,
 } from "../../../common";
 import { RcFile } from "../../../common/rcfile/typedefs";
+import _ from "lodash";
+import { showSelectPrompt } from "../../prompts";
 
-export const initCommand: CommandHandler = () => {
+export const initCommand: CommandHandler = async () => {
   // :CHECKS
   // check .eslint-workflowsrc.js present
   // check package.json present
   // check eslint-workflows-entries.yml present
-  // check CODEOWNER presence (github/gitlab)
+  const projectRoot = getProjectRoot();
+  const codeownersPath = await getCodeownersPath(projectRoot);
 
   const defaultRcFile: RcFile = {
     eslintOutputPath: "eslint-workflows/eslint-output.json",
-    codeownersPath: ".github/CODEOWNERS",
+    codeownersPath,
     workflowsEntriesPath: "eslint-workflows/eslint-workflows-entries.yml",
   };
 
-  makeFile.rcFile(defaultRcFile);
+  makeFile.rcFile(projectRoot, defaultRcFile);
   makeFile.workflowsEntries(
     defaultRcFile.workflowsEntriesPath,
     EMPTY_WORKFLOWS_ENTRIES
@@ -31,10 +34,52 @@ export const initCommand: CommandHandler = () => {
   showMessages(defaultRcFile);
 };
 
+const getCodeownersPath = async (
+  projectRoot: string
+): Promise<string | undefined> => {
+  const codeownersPaths = detectCodeownersFile(projectRoot);
+  if (codeownersPaths.length === 0) {
+    return undefined;
+  }
+
+  if (codeownersPaths.length === 1) {
+    return codeownersPaths[0];
+  }
+
+  console.log("Multiple CODEOWNERS files detected.");
+  const selectedPath = await showSelectPrompt({
+    message: "Select CODEOWNERS",
+    options: codeownersPaths,
+  });
+  return selectedPath;
+};
+
+const detectCodeownersFile = (projectRoot: string): string[] => {
+  const pathsToLookAt = _.uniq([
+    // github
+    // ref: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+    makePath("CODEOWNERS"),
+    makePath(".github", "CODEOWNERS"),
+    makePath("docs", "CODEOWNERS"),
+    // gitlab
+    // ref: https://docs.gitlab.com/ee/user/project/code_owners.html
+    makePath("CODEOWNERS"),
+    makePath(".gitlab", "CODEOWNERS"),
+    makePath("docs", "CODEOWNERS"),
+  ]);
+
+  const matchingPaths = pathsToLookAt.filter((p) => {
+    const absPath = makePath(projectRoot, p);
+    const fileExists = fs.existsSync(absPath);
+    return fileExists;
+  });
+  return matchingPaths;
+};
+
 const makeFile = {
-  rcFile: (rcFile: RcFile) => {
+  rcFile: (projectRoot: string, rcFile: RcFile) => {
     const filePath = makePath(
-      getProjectRoot(),
+      projectRoot,
       "eslint-workflows",
       ".eslint-workflowsrc.js"
     );

@@ -5,8 +5,13 @@ export const getRcFile = (): RcFile => {
   const rcFilePath = getRcFilePath();
   const rcFile: RcFile = require(rcFilePath);
 
+  const codeownersPath =
+    rcFile.codeownersPath !== undefined
+      ? handlePath(rcFile.codeownersPath)
+      : rcFile.codeownersPath;
+
   const modifiedRcFile: RcFile = {
-    codeownersPath: handlePath(rcFile.codeownersPath),
+    codeownersPath,
     eslintOutputPath: handlePath(rcFile.eslintOutputPath),
     workflowsEntriesPath: handlePath(rcFile.workflowsEntriesPath),
   };

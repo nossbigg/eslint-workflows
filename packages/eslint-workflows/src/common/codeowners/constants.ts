@@ -1,4 +1,8 @@
-import { Codeowner } from "./typedefs";
+import { Codeowner, Codeowners } from "./typedefs";
+
+export const EMPTY_CODEOWNERS: Codeowners = {
+  entries: [],
+};
 
 export const NO_OWNER_NAME = "_NO_OWNER_";
 

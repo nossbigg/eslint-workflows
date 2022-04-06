@@ -4,7 +4,7 @@ import { WorkflowsEntries } from "../workflows-entries";
 
 export type RcFile = {
   eslintOutputPath: string;
-  codeownersPath: string;
+  codeownersPath?: string;
   workflowsEntriesPath: string;
 };
 
