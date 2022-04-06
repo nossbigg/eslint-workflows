@@ -1,12 +1,7 @@
 import fs from "fs-extra";
 import { CommandHandler } from "../typedefs";
-import { makeWorkflowsRcFileTemplate } from "./templates";
-import {
-  EMPTY_WORKFLOWS_ENTRIES,
-  makePath,
-  makeWorkflowsEntriesYmlDump,
-  WorkflowsEntries,
-} from "../../../common";
+import { makeConfigFiles } from "./makeConfigFiles";
+import { makePath } from "../../../common";
 import { RcFile } from "../../../common/rcfile/typedefs";
 import _ from "lodash";
 import { showSelectPrompt } from "../../prompts";
@@ -26,12 +21,7 @@ export const initCommand: CommandHandler = async () => {
     workflowsEntriesPath: "eslint-workflows/eslint-workflows-entries.yml",
   };
 
-  makeFile.rcFile(projectRoot, defaultRcFile);
-  makeFile.workflowsEntries(
-    defaultRcFile.workflowsEntriesPath,
-    EMPTY_WORKFLOWS_ENTRIES
-  );
-
+  makeConfigFiles(projectRoot, defaultRcFile);
   showPostSetupMessages(defaultRcFile);
 };
 
@@ -75,26 +65,6 @@ const detectCodeownersFile = (projectRoot: string): string[] => {
     return fileExists;
   });
   return matchingPaths;
-};
-
-const makeFile = {
-  rcFile: (projectRoot: string, rcFile: RcFile) => {
-    const filePath = makePath(
-      projectRoot,
-      "eslint-workflows",
-      ".eslint-workflowsrc.js"
-    );
-    const fileContent = makeWorkflowsRcFileTemplate(rcFile);
-
-    fs.ensureFileSync(filePath);
-    fs.writeFileSync(filePath, fileContent);
-  },
-  workflowsEntries: (filePath: string, wfe: WorkflowsEntries) => {
-    const fileContent = makeWorkflowsEntriesYmlDump(wfe);
-
-    fs.ensureFileSync(filePath);
-    fs.writeFileSync(filePath, fileContent);
-  },
 };
 
 const getProjectRoot = (): string => {
