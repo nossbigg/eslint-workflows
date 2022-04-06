@@ -5,6 +5,7 @@ import {
   removeEntryCommand,
   fmtEntryCommand,
   initCommand,
+  viewCommand,
 } from "./commands";
 
 const { noop } = _;
@@ -29,6 +30,7 @@ export const cliEntrypoint = (): void => {
       noop,
       initCommand
     )
+    .command("view", "Print yml file contents", noop, viewCommand)
     .demandCommand()
     .recommendCommands()
     .strict().argv;
