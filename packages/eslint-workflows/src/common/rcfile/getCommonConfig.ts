@@ -10,7 +10,7 @@ export const getCommonConfig = (): CommonConfig => {
 
   const eslintOutput = getEslintOutput(eslintOutputPath);
   const codeowners = getCodeowners(codeownersPath);
-  const workflowsEntries = getWorkflowsEntries(workflowsEntriesPath);
+  const { json: workflowsEntries } = getWorkflowsEntries(workflowsEntriesPath);
 
   const result: CommonConfig = {
     rcFile,
