@@ -8,11 +8,11 @@ import { doConfigFileChecks } from "./doConfigFileChecks";
 
 export const initCommand: CommandHandler = async () => {
   const projectRoot = getProjectRoot();
-  const workflowsEntriesPath = "eslint-workflows/eslint-workflows-entries.yml";
+  const workflowsEntriesFileName = "eslint-workflows-entries.yml";
 
   const configFolderPath = makePath(projectRoot, "eslint-workflows");
   const rcFileFullPath = makePath(configFolderPath, ".eslint-workflowsrc.js");
-  const wfeFullPath = makePath(configFolderPath, workflowsEntriesPath);
+  const wfeFullPath = makePath(configFolderPath, workflowsEntriesFileName);
 
   const { confirm } = await doConfigFileChecks(rcFileFullPath, wfeFullPath);
   if (!confirm) {
@@ -22,9 +22,12 @@ export const initCommand: CommandHandler = async () => {
   const codeownersPath = await getCodeownersPath(projectRoot);
 
   const defaultRcFile: RcFile = {
-    eslintOutputPath: "eslint-workflows/eslint-output.json",
+    eslintOutputPath: makePath("eslint-workflows", "eslint-output.json"),
     codeownersPath,
-    workflowsEntriesPath,
+    workflowsEntriesPath: makePath(
+      "eslint-workflows",
+      workflowsEntriesFileName
+    ),
   };
 
   makeConfigFiles(rcFileFullPath, defaultRcFile);
