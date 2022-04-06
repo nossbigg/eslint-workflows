@@ -1,11 +1,10 @@
-import fs from "fs-extra";
 import { CommandHandler } from "../typedefs";
 import { makeConfigFiles } from "./makeConfigFiles";
 import { makePath } from "../../../common";
 import { RcFile } from "../../../common/rcfile/typedefs";
 import { showPostSetupMessages } from "./showPostSetupMessages";
 import { getCodeownersPath } from "./getCodeownersPath";
-import { showConfirmPrompt } from "../../prompts";
+import { doConfigFileChecks } from "./doConfigFileChecks";
 
 export const initCommand: CommandHandler = async () => {
   const projectRoot = getProjectRoot();
@@ -30,40 +29,6 @@ export const initCommand: CommandHandler = async () => {
 
   makeConfigFiles(rcFileFullPath, defaultRcFile);
   showPostSetupMessages(defaultRcFile);
-};
-
-type DoConfigFileChecksReturn = { confirm: boolean };
-
-const doConfigFileChecks = async (
-  rcFilePath: string,
-  wfePath: string
-): Promise<DoConfigFileChecksReturn> => {
-  const checks = [
-    {
-      title: "rc file",
-      filePath: rcFilePath,
-      check: fs.existsSync(rcFilePath),
-    },
-    { title: "yml file", filePath: wfePath, check: fs.existsSync(wfePath) },
-  ];
-
-  console.log("= File Checks =");
-  checks.forEach((c) => {
-    const { title, filePath, check } = c;
-    const icon = check ? "✅" : "❌";
-    console.log(`${icon} ${title} (${filePath})`);
-  });
-
-  const hasError = !!checks.find((c) => c.check);
-  if (!hasError) {
-    return { confirm: true };
-  }
-
-  const confirm = await showConfirmPrompt({
-    initial: false,
-    message: "Overwrite existing config files?",
-  });
-  return { confirm };
 };
 
 const getProjectRoot = (): string => {
