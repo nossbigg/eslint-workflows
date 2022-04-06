@@ -1,4 +1,5 @@
 import path, { isAbsolute } from "path";
+import { getProjectRoot } from "../path";
 import { RcFile } from "./typedefs";
 
 export const getRcFile = (): RcFile => {
@@ -19,7 +20,7 @@ export const getRcFile = (): RcFile => {
 };
 
 const getRcFilePath = (): string => {
-  const cwd = process.cwd();
+  const cwd = getProjectRoot();
   const filePath = path.join(cwd, "eslint-workflows", ".eslint-workflowsrc.js");
   return filePath;
 };
@@ -28,6 +29,6 @@ const handlePath = (filePath: string): string => {
   if (isAbsolute(filePath)) {
     return filePath;
   }
-  const cwd = process.cwd();
+  const cwd = getProjectRoot();
   return path.join(cwd, filePath);
 };

@@ -10,3 +10,7 @@ export const stripPrefixSlash = (v: string): string => {
 export const makePath = (...paths: string[]): string => {
   return path.join(...paths);
 };
+
+export const getProjectRoot = (): string => {
+  return process.cwd();
+};

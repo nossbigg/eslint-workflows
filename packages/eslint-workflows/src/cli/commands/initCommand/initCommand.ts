@@ -1,7 +1,6 @@
 import { CommandHandler } from "../typedefs";
 import { makeConfigFiles } from "./makeConfigFiles";
-import { makePath } from "../../../common";
-import { RcFile } from "../../../common/rcfile/typedefs";
+import { getProjectRoot, makePath, RcFile } from "../../../common";
 import { showPostSetupMessages } from "./showPostSetupMessages";
 import { getCodeownersPath } from "./getCodeownersPath";
 import { doConfigFileChecks } from "./doConfigFileChecks";
@@ -32,8 +31,4 @@ export const initCommand: CommandHandler = async () => {
 
   makeConfigFiles(rcFileFullPath, defaultRcFile);
   showPostSetupMessages(defaultRcFile);
-};
-
-const getProjectRoot = (): string => {
-  return process.cwd();
 };
