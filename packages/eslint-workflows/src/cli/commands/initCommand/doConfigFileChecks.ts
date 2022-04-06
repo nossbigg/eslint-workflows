@@ -21,7 +21,7 @@ export const doConfigFileChecks = async (
   console.log("= File Checks =");
   checks.forEach((c) => {
     const { title, filePath, check } = c;
-    const icon = check ? "✅" : "❌";
+    const icon = check ? "👀" : "👌";
     console.log(`${icon} ${title} (${filePath})`);
   });
 
