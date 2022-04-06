@@ -18,6 +18,11 @@ export const saveWorkflowsEntries = (
     ? normalizeWorkflowsEntries(wfe)
     : wfe;
 
-  const output = yaml.dump(finalWfe, yamlDumpOpts);
+  const output = makeWorkflowsEntriesYmlDump(wfe);
   fs.writeFileSync(filePath, output);
+};
+
+export const makeWorkflowsEntriesYmlDump = (wfe: WorkflowsEntries): string => {
+  const output = yaml.dump(wfe, yamlDumpOpts);
+  return output;
 };
