@@ -18,7 +18,7 @@ export const saveWorkflowsEntries = (
     ? normalizeWorkflowsEntries(wfe)
     : wfe;
 
-  const output = makeWorkflowsEntriesYmlDump(wfe);
+  const output = makeWorkflowsEntriesYmlDump(finalWfe);
   fs.writeFileSync(filePath, output);
 };
 
