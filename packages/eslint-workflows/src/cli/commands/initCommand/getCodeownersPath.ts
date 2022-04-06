@@ -24,23 +24,23 @@ export const getCodeownersPath = async (
 };
 
 const detectCodeownersFile = (projectRoot: string): string[] => {
-  const codeownersPaths = _.uniq([
-    // github
-    // ref: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
-    makePath("CODEOWNERS"),
-    makePath(".github", "CODEOWNERS"),
-    makePath("docs", "CODEOWNERS"),
-    // gitlab
-    // ref: https://docs.gitlab.com/ee/user/project/code_owners.html
-    makePath("CODEOWNERS"),
-    makePath(".gitlab", "CODEOWNERS"),
-    makePath("docs", "CODEOWNERS"),
-  ]);
-
-  const matchingPaths = codeownersPaths.filter((p) => {
+  const matchingPaths = CODEOWNERS_PATHS.filter((p) => {
     const absPath = makePath(projectRoot, p);
     const fileExists = fs.existsSync(absPath);
     return fileExists;
   });
   return matchingPaths;
 };
+
+const CODEOWNERS_PATHS = _.uniq([
+  // github
+  // ref: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+  makePath("CODEOWNERS"),
+  makePath(".github", "CODEOWNERS"),
+  makePath("docs", "CODEOWNERS"),
+  // gitlab
+  // ref: https://docs.gitlab.com/ee/user/project/code_owners.html
+  makePath("CODEOWNERS"),
+  makePath(".gitlab", "CODEOWNERS"),
+  makePath("docs", "CODEOWNERS"),
+]);
