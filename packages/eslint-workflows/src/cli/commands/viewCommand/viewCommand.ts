@@ -7,7 +7,15 @@ import { CommandHandler } from "../typedefs";
 
 export const viewCommand: CommandHandler = async () => {
   const { workflowsEntries } = getCommonConfig();
-  workflowsEntries.entries.map(printEntry);
+  const { entries } = workflowsEntries;
+
+  const hasNoEntries = entries.length === 0;
+  if (hasNoEntries) {
+    console.log("No entries found.");
+    return;
+  }
+
+  entries.map(printEntry);
 };
 
 const printEntry = (entry: WorkflowsEntry) => {
