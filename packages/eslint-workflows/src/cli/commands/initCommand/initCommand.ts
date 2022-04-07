@@ -1,4 +1,5 @@
 import { CommandHandler } from "../typedefs";
+import { showNoChangesAppliedMessage } from "../common";
 import { makeConfigFiles } from "./makeConfigFiles";
 import { getProjectRoot, makePath, RcFile } from "../../../common";
 import { showPostSetupMessages } from "./showPostSetupMessages";
@@ -15,6 +16,7 @@ export const initCommand: CommandHandler = async () => {
 
   const { confirm } = await doConfigFileChecks(rcFileFullPath, wfeFullPath);
   if (!confirm) {
+    showNoChangesAppliedMessage();
     return;
   }
 
