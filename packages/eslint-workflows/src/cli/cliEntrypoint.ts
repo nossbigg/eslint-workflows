@@ -12,6 +12,12 @@ import {
 export const cliEntrypoint = (): void => {
   yargs
     .scriptName("eslint-workflows")
+    .command(
+      "view",
+      "Print yml file contents",
+      _.noop,
+      swallowErrors(viewCommand)
+    )
     .command("entry", "Interact with entries.yml file", (yargs) => {
       return yargs
         .command("add", "Add an entry", _.noop, swallowErrors(addEntryCommand))
@@ -33,12 +39,6 @@ export const cliEntrypoint = (): void => {
       "Sets up eslint-workflows for current project",
       _.noop,
       swallowErrors(initCommand)
-    )
-    .command(
-      "view",
-      "Print yml file contents",
-      _.noop,
-      swallowErrors(viewCommand)
     )
     .demandCommand()
     .recommendCommands()
