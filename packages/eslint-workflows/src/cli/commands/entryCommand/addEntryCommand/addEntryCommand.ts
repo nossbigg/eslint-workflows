@@ -12,6 +12,7 @@ import {
   stripPrefixSlash,
   getWorkflowsEntriesRuleIds,
   doEslintOutputFileCheck,
+  replaceWorkflowEntryByRuleId,
 } from "../../../../common";
 import { showConfirmPrompt, showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
@@ -31,7 +32,7 @@ export const addEntryCommand: CommandHandler = async () => {
     return;
   }
 
-  const { exit } = await handleExistingEntryFlow(
+  const { exit, hasExistingEntry } = await handleExistingEntryFlow(
     workflowsEntries,
     selectedRuleId
   );
@@ -40,11 +41,21 @@ export const addEntryCommand: CommandHandler = async () => {
   }
 
   const newEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
+
+  if (hasExistingEntry) {
+    const updatedYml: WorkflowsEntries = replaceWorkflowEntryByRuleId(
+      workflowsEntries,
+      selectedRuleId,
+      newEntry
+    );
+    saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+    return;
+  }
+
   const updatedYml: WorkflowsEntries = {
     ...workflowsEntries,
     entries: [...workflowsEntries.entries, newEntry],
   };
-
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
 };
 
@@ -57,14 +68,14 @@ const handleExistingEntryFlow = async (
     (ruleId) => ruleId === selectedRuleId
   );
   if (!hasExistingEntry) {
-    return { exit: false };
+    return { exit: false, hasExistingEntry };
   }
 
   const confirm = await showConfirmPrompt({
     initial: false,
     message: "Overwrite existing entry?",
   });
-  return { exit: !confirm };
+  return { exit: !confirm, hasExistingEntry };
 };
 
 const makeNewWorkflowEntry = (
