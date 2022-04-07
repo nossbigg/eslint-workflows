@@ -38,6 +38,9 @@ export const removeEntryTeam: CommandHandler = async () => {
     message: "Select team(s)",
     options: teamIds,
   });
+  if (!selectedTeams) {
+    return;
+  }
 
   const updatedEntry: WorkflowsEntry = removeTeamsFromWorkflowEntry(
     matchingEntry,

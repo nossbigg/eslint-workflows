@@ -48,6 +48,9 @@ export const removeEntryTeamFile: CommandHandler = async () => {
     message: "Select file(s)",
     options: fileNames,
   });
+  if (!selectedFiles) {
+    return;
+  }
 
   const updatedEntry: WorkflowsEntry = removeTeamFilesFromWorkflowEntry(
     matchingEntry,
