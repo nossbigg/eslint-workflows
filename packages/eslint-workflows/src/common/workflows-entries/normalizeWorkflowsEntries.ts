@@ -5,9 +5,32 @@ import { flow } from "lodash/fp";
 type WFETransformFn = (wfe: WorkflowsEntries) => WorkflowsEntries;
 
 export const normalizeWorkflowsEntries: WFETransformFn = (wfe) => {
-  const transformFn = flow([removeEmptyEntryTeams, removeEmptyEntries]);
+  const transformFn = flow([
+    removeEmptyEntryTeams,
+    removeEmptyEntries,
+    sortTeamsFiles,
+  ]);
 
   const result: WorkflowsEntries = transformFn(wfe);
+  return result;
+};
+
+const sortTeamsFiles: WFETransformFn = (wfe) => {
+  const updatedEntries = wfe.entries.map((entry) => {
+    const updatedTeams = Object.keys(entry.teams).reduce((acc, teamKey) => {
+      const team = entry.teams[teamKey];
+      const { files } = team;
+      const sortedFiles = [...files].sort();
+
+      const updatedTeam = { ...team, files: sortedFiles };
+      return { ...acc, [teamKey]: updatedTeam };
+    }, {});
+
+    const updatedEntry: WorkflowsEntry = { ...entry, teams: updatedTeams };
+    return updatedEntry;
+  });
+
+  const result: WorkflowsEntries = { ...wfe, entries: updatedEntries };
   return result;
 };
 
