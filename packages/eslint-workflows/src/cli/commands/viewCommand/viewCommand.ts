@@ -1,4 +1,5 @@
 import {
+  consoleLog,
   getCommonConfig,
   WorkflowsEntry,
   WorkflowsTeamEntry,
@@ -11,7 +12,7 @@ export const viewCommand: CommandHandler = async () => {
 
   const hasNoEntries = entries.length === 0;
   if (hasNoEntries) {
-    console.log("No entries found.");
+    consoleLog("No entries found.");
     return;
   }
 
@@ -21,15 +22,15 @@ export const viewCommand: CommandHandler = async () => {
 const printEntry = (entry: WorkflowsEntry) => {
   const { ruleId, teams } = entry;
 
-  console.log(`Rule: ${ruleId}`);
+  consoleLog(`Rule: ${ruleId}`);
   Object.keys(teams).forEach((teamName) =>
     printEntryTeams(teamName, entry.teams[teamName])
   );
 };
 
 const printEntryTeams = (teamName: string, teamEntry: WorkflowsTeamEntry) => {
-  console.log(`+ Owner: ${teamName}`);
+  consoleLog(`+ Owner: ${teamName}`);
   teamEntry.files.forEach((fileName) => {
-    console.log(`  - ${fileName}`);
+    consoleLog(`  - ${fileName}`);
   });
 };

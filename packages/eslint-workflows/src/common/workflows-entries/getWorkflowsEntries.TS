@@ -1,5 +1,6 @@
 import fs from "fs";
 import yaml from "js-yaml";
+import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
 import { WorkflowsEntries } from "./typedefs";
 
@@ -9,7 +10,7 @@ export const getWorkflowsEntries = (
   filePath: string
 ): GetWorkflowsEntriesReturn => {
   if (!isFileExists(filePath)) {
-    console.log(`❌ yml file not found! (expected file: ${filePath})`);
+    consoleLog(`❌ yml file not found! (expected file: ${filePath})`);
     throw new Error();
   }
 
@@ -19,7 +20,7 @@ export const getWorkflowsEntries = (
     raw = fs.readFileSync(filePath).toString("utf8");
     json = yaml.load(raw) as WorkflowsEntries;
   } catch (e) {
-    console.log(`❌ Error loading yml file! (file: ${filePath})`);
+    consoleLog(`❌ Error loading yml file! (file: ${filePath})`);
     throw e;
   }
 

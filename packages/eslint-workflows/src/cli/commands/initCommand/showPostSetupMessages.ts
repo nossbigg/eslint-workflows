@@ -1,4 +1,4 @@
-import { RcFile } from "../../../common";
+import { consoleLog, RcFile } from "../../../common";
 
 type ConsoleMessage = { title: string; content: string };
 
@@ -34,8 +34,8 @@ module.exports = {
     addOverridesMessage,
   ];
   messages.forEach((msg) => {
-    console.log(makeConsoleMessage(msg));
-    console.log();
+    consoleLog(makeConsoleMessage(msg));
+    consoleLog();
   });
 };
 

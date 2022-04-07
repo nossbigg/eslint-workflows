@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import { consoleLog } from "../../../common";
 import { showConfirmPrompt } from "../../prompts";
 
 type DoConfigFileChecksReturn = { confirm: boolean };
@@ -18,11 +19,11 @@ export const doConfigFileChecks = async (
     { title: "yml file", filePath: wfePath, check: fs.existsSync(wfePath) },
   ];
 
-  console.log("= File Checks =");
+  consoleLog("= File Checks =");
   checks.forEach((c) => {
     const { title, filePath, check } = c;
     const icon = check ? "👀" : "👌";
-    console.log(`${icon} ${title} (${filePath})`);
+    consoleLog(`${icon} ${title} (${filePath})`);
   });
 
   const hasError = !!checks.find((c) => c.check);

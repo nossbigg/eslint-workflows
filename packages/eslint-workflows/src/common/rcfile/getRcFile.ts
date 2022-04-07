@@ -1,4 +1,5 @@
 import { isAbsolute } from "path";
+import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
 import { getProjectRoot, makePath } from "../path";
 import { RcFile } from "./typedefs";
@@ -6,7 +7,7 @@ import { RcFile } from "./typedefs";
 export const getRcFile = (): RcFile => {
   const filePath = getRcFilePath();
   if (!isFileExists(filePath)) {
-    console.log(`❌ rc file not found! (expected rc file: ${filePath})`);
+    consoleLog(`❌ rc file not found! (expected rc file: ${filePath})`);
     throw new Error();
   }
 
@@ -14,7 +15,7 @@ export const getRcFile = (): RcFile => {
   try {
     rcFile = require(filePath);
   } catch (e) {
-    console.log(`❌ Error loading rc file! (rc file: ${filePath})`);
+    consoleLog(`❌ Error loading rc file! (rc file: ${filePath})`);
     throw e;
   }
 

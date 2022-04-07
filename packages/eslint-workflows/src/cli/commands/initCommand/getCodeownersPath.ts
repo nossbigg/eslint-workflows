@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import _ from "lodash";
-import { makePath } from "../../../common";
+import { consoleLog, makePath } from "../../../common";
 import { showSelectPrompt } from "../../prompts";
 
 export const getCodeownersPath = async (
@@ -15,7 +15,7 @@ export const getCodeownersPath = async (
     return codeownersPaths[0];
   }
 
-  console.log("Multiple CODEOWNERS files detected.");
+  consoleLog("Multiple CODEOWNERS files detected.");
   const selectedPath = await showSelectPrompt({
     message: "Select CODEOWNERS",
     options: codeownersPaths,

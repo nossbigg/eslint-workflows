@@ -1,4 +1,5 @@
 import fs from "fs";
+import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
 import { EslintOutput } from "./typedefs";
 
@@ -23,9 +24,7 @@ const getEslintOutputUnsafe = (filePath: string): EslintOutput => {
 
 export const doEslintOutputFileCheck = (filePath: string) => {
   if (!isFileExists(filePath)) {
-    console.log(
-      `❌ eslint output file not found! (expected file: ${filePath})`
-    );
+    consoleLog(`❌ eslint output file not found! (expected file: ${filePath})`);
     throw new Error();
   }
 
@@ -33,7 +32,7 @@ export const doEslintOutputFileCheck = (filePath: string) => {
     // try loading file
     getEslintOutputUnsafe(filePath);
   } catch (e) {
-    console.log(`❌ Error loading eslint output file! (file: ${filePath})`);
+    consoleLog(`❌ Error loading eslint output file! (file: ${filePath})`);
     throw e;
   }
 };
