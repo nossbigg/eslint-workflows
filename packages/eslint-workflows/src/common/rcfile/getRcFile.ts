@@ -1,20 +1,20 @@
-import fs from "fs-extra";
 import { isAbsolute } from "path";
+import { isFileExists } from "../fs";
 import { getProjectRoot, makePath } from "../path";
 import { RcFile } from "./typedefs";
 
 export const getRcFile = (): RcFile => {
-  const rcFilePath = getRcFilePath();
-  if (!isRcFileExists(rcFilePath)) {
-    console.log(`❌ rc file not found! (expected rc file: ${rcFilePath})`);
+  const filePath = getRcFilePath();
+  if (!isFileExists(filePath)) {
+    console.log(`❌ rc file not found! (expected rc file: ${filePath})`);
     throw new Error();
   }
 
   let rcFile: RcFile;
   try {
-    rcFile = require(rcFilePath);
+    rcFile = require(filePath);
   } catch (e) {
-    console.log(`❌ Error loading rc file! (rc file: ${rcFilePath})`);
+    console.log(`❌ Error loading rc file! (rc file: ${filePath})`);
     throw e;
   }
 
@@ -29,10 +29,6 @@ export const getRcFile = (): RcFile => {
     workflowsEntriesPath: handlePath(rcFile.workflowsEntriesPath),
   };
   return modifiedRcFile;
-};
-
-const isRcFileExists = (filePath: string) => {
-  return fs.existsSync(filePath);
 };
 
 const getRcFilePath = (): string => {
