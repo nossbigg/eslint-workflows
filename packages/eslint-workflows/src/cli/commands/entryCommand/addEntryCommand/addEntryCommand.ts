@@ -11,6 +11,7 @@ import {
   saveWorkflowsEntries,
   stripPrefixSlash,
   getWorkflowsEntriesRuleIds,
+  doEslintOutputFileCheck,
 } from "../../../../common";
 import { showConfirmPrompt, showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
@@ -18,6 +19,8 @@ import { CommonConfig } from "../../../../common/rcfile/typedefs";
 export const addEntryCommand: CommandHandler = async () => {
   const commonConfig = getCommonConfig();
   const { eslintOutput, workflowsEntries, rcFile } = commonConfig;
+
+  doEslintOutputFileCheck(rcFile.eslintOutputPath);
 
   const availableRuleIds = getAvailableRuleIds(eslintOutput);
   const selectedRuleId = await showSelectPrompt({
