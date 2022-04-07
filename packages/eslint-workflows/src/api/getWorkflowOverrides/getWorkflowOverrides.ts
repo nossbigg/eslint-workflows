@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { getCommonConfig, getWorkflowsEntries } from "../../common";
+import { CommonConfig, getCommonConfig } from "../../common";
 import { WorkflowOverride } from "./typedefs";
 
 export const getWorkflowOverrides = (): WorkflowOverride[] => {
@@ -8,10 +8,14 @@ export const getWorkflowOverrides = (): WorkflowOverride[] => {
     return [];
   }
 
-  const { rcFile } = getCommonConfig();
-  const { workflowsEntriesPath } = rcFile;
+  let commonConfig: CommonConfig;
+  try {
+    commonConfig = getCommonConfig();
+  } catch (e) {
+    process.exit(1);
+  }
 
-  const { json: yml } = getWorkflowsEntries(workflowsEntriesPath);
+  const { workflowsEntries: yml } = commonConfig;
   const overrides: WorkflowOverride[] = yml.entries.map((entry) => {
     const { ruleId, teams } = entry;
     const fileNames = Object.values(teams).flatMap((team) => team.files);
