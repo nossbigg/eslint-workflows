@@ -1,4 +1,5 @@
 import fs from "fs-extra";
+import chalk from "chalk";
 import { consoleLog } from "../../../common";
 import { showConfirmPrompt } from "../../prompts";
 
@@ -23,7 +24,7 @@ export const doConfigFileChecks = async (
   checks.forEach((c) => {
     const { title, filePath, check } = c;
     const icon = check ? "👀" : "👌";
-    consoleLog(`${icon} ${title} (${filePath})`);
+    consoleLog(`${icon} ${title} (${chalk.gray(filePath)})`);
   });
 
   const hasError = !!checks.find((c) => c.check);
