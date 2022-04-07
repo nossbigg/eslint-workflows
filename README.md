@@ -2,6 +2,10 @@
 
 **Surgically mute ESLint errors at scale 🤫⚡️**
 
+🔪 Silence lint errors selectively at per-file + per-rule basis
+
+💪 Great for monorepos / large teams / noisy rules
+
 # Problem / Solution
 
 **Problem**
@@ -10,24 +14,21 @@
 2. It's hard to address all these errors in one go.
 3. At the same time, you want to apply this new rule to all new code.
 
+> In a large monorepo with many developers adding new code all the time, you're essentially fighting a losing battle trying to fix lint errors faster than they come...
+
+> _If only there was a better way..._ 🤔
+
 **Solution**
 
-`eslint-workflows` does the following for you:
+`eslint-workflows` allows you to **incrementally** apply lint rules to your codebase, via the following features:
 
-1. Helps you mute ESLint errors at per-file + per-rule basis.
+1. Helps you **mute lint errors** at **per-file + per-rule** basis.
 
-2. Tracks all mutes via a human-readable `.yml` file.
+2. Tracks all mutes via a **human-readable `.yml` file**.
 
-3. Reads `eslint output` and autogenerates `.yml` changes when you need to add new entries.
+3. **Autogenerates `.yml` changes** from `eslint output` when you need to add new entries.
 
-4. -TBC-
-
-`eslint-workflows` is great for:
-
-- Monorepos
-- Large teams
-- Large number of files
-- Noisy rules
+4. Contains an intuitive CLI interface to let you to **safely modify the `.yml` file**.
 
 # Setup
 
