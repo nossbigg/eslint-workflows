@@ -10,6 +10,10 @@ import {
   WorkflowsEntry,
 } from "../../../../common";
 import { showMultiSelectPrompt, showSelectPrompt } from "../../../prompts";
+import {
+  showChangesAppliedMessage,
+  showNoChangesAppliedMessage,
+} from "../../common";
 import { CommandHandler } from "../../typedefs";
 
 export const removeEntryTeam: CommandHandler = async () => {
@@ -22,6 +26,7 @@ export const removeEntryTeam: CommandHandler = async () => {
     options: entriesRuleIds,
   });
   if (!selectedRuleId) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -30,6 +35,7 @@ export const removeEntryTeam: CommandHandler = async () => {
     selectedRuleId
   );
   if (!matchingEntry) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -39,6 +45,7 @@ export const removeEntryTeam: CommandHandler = async () => {
     options: teamIds,
   });
   if (!selectedTeams) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -52,4 +59,5 @@ export const removeEntryTeam: CommandHandler = async () => {
     updatedEntry
   );
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+  showChangesAppliedMessage();
 };

@@ -6,6 +6,10 @@ import {
   WorkflowsEntries,
 } from "../../../../common";
 import { showSelectPrompt } from "../../../prompts";
+import {
+  showChangesAppliedMessage,
+  showNoChangesAppliedMessage,
+} from "../../common";
 import { CommandHandler } from "../../typedefs";
 
 export const removeEntireEntry: CommandHandler = async () => {
@@ -18,6 +22,7 @@ export const removeEntireEntry: CommandHandler = async () => {
     options: entriesRuleIds,
   });
   if (!selectedRuleId) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -26,4 +31,5 @@ export const removeEntireEntry: CommandHandler = async () => {
     selectedRuleId
   );
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+  showChangesAppliedMessage();
 };
