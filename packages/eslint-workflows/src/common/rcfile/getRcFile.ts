@@ -1,10 +1,22 @@
-import path, { isAbsolute } from "path";
-import { getProjectRoot } from "../path";
+import fs from "fs-extra";
+import { isAbsolute } from "path";
+import { getProjectRoot, makePath } from "../path";
 import { RcFile } from "./typedefs";
 
 export const getRcFile = (): RcFile => {
   const rcFilePath = getRcFilePath();
-  const rcFile: RcFile = require(rcFilePath);
+  if (!isRcFileExists(rcFilePath)) {
+    console.log(`❌ rc file not found! (expected rc file: ${rcFilePath})`);
+    throw new Error();
+  }
+
+  let rcFile: RcFile;
+  try {
+    rcFile = require(rcFilePath);
+  } catch (e) {
+    console.log(`❌ Error loading rc file! (rc file: ${rcFilePath})`);
+    throw e;
+  }
 
   const codeownersPath =
     rcFile.codeownersPath !== undefined
@@ -19,9 +31,13 @@ export const getRcFile = (): RcFile => {
   return modifiedRcFile;
 };
 
+const isRcFileExists = (filePath: string) => {
+  return fs.existsSync(filePath);
+};
+
 const getRcFilePath = (): string => {
   const cwd = getProjectRoot();
-  const filePath = path.join(cwd, "eslint-workflows", ".eslint-workflowsrc.js");
+  const filePath = makePath(cwd, "eslint-workflows", ".eslint-workflowsrc.js");
   return filePath;
 };
 
@@ -30,5 +46,5 @@ const handlePath = (filePath: string): string => {
     return filePath;
   }
   const cwd = getProjectRoot();
-  return path.join(cwd, filePath);
+  return makePath(cwd, filePath);
 };

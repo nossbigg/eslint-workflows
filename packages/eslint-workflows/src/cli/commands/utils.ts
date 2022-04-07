@@ -6,5 +6,7 @@ export const swallowErrors =
   (handler: CommandHandler) => async (argv: ArgumentsCamelCase) => {
     try {
       return await handler(argv);
-    } catch {}
+    } catch (e) {
+      process.exit(1);
+    }
   };
