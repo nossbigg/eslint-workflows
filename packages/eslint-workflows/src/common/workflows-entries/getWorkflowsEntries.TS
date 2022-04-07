@@ -1,4 +1,5 @@
 import fs from "fs";
+import chalk from "chalk";
 import yaml from "js-yaml";
 import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
@@ -10,7 +11,9 @@ export const getWorkflowsEntries = (
   filePath: string
 ): GetWorkflowsEntriesReturn => {
   if (!isFileExists(filePath)) {
-    consoleLog(`❌ yml file not found! (expected file: ${filePath})`);
+    consoleLog(
+      `❌ yml file not found! (expected file: ${chalk.gray(filePath)})`
+    );
     throw new Error();
   }
 
@@ -20,7 +23,7 @@ export const getWorkflowsEntries = (
     raw = fs.readFileSync(filePath).toString("utf8");
     json = yaml.load(raw) as WorkflowsEntries;
   } catch (e) {
-    consoleLog(`❌ Error loading yml file! (file: ${filePath})`);
+    consoleLog(`❌ Error loading yml file! (file: ${chalk.gray(filePath)})`);
     throw e;
   }
 

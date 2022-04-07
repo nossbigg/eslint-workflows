@@ -1,4 +1,5 @@
 import fs from "fs";
+import chalk from "chalk";
 import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
 import { EslintOutput } from "./typedefs";
@@ -24,7 +25,11 @@ const getEslintOutputUnsafe = (filePath: string): EslintOutput => {
 
 export const doEslintOutputFileCheck = (filePath: string) => {
   if (!isFileExists(filePath)) {
-    consoleLog(`❌ eslint output file not found! (expected file: ${filePath})`);
+    consoleLog(
+      `❌ eslint output file not found! (expected file: ${chalk.gray(
+        filePath
+      )})`
+    );
     throw new Error();
   }
 
@@ -32,7 +37,9 @@ export const doEslintOutputFileCheck = (filePath: string) => {
     // try loading file
     getEslintOutputUnsafe(filePath);
   } catch (e) {
-    consoleLog(`❌ Error loading eslint output file! (file: ${filePath})`);
+    consoleLog(
+      `❌ Error loading eslint output file! (file: ${chalk.gray(filePath)})`
+    );
     throw e;
   }
 };

@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { isAbsolute } from "path";
 import { consoleLog } from "../console";
 import { isFileExists } from "../fs";
@@ -7,7 +8,9 @@ import { RcFile } from "./typedefs";
 export const getRcFile = (): RcFile => {
   const filePath = getRcFilePath();
   if (!isFileExists(filePath)) {
-    consoleLog(`❌ rc file not found! (expected rc file: ${filePath})`);
+    consoleLog(
+      `❌ rc file not found! (expected rc file: ${chalk.gray(filePath)})`
+    );
     throw new Error();
   }
 
@@ -15,7 +18,7 @@ export const getRcFile = (): RcFile => {
   try {
     rcFile = require(filePath);
   } catch (e) {
-    consoleLog(`❌ Error loading rc file! (rc file: ${filePath})`);
+    consoleLog(`❌ Error loading rc file! (rc file: ${chalk.gray(filePath)})`);
     throw e;
   }
 
