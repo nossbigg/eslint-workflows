@@ -10,7 +10,8 @@
   "scripts": {
     "cleanDist": "rm -rf dist/",
     "build": "yarn cleanDist && tsc",
-    "dev": "yarn cleanDist && tsc --watch"
+    "dev": "yarn cleanDist && tsc --watch",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/eslint": "^8.4.1",
