@@ -17,6 +17,9 @@ export const removeEntireEntry: CommandHandler = async () => {
     message: "Select entry to remove",
     options: entriesRuleIds,
   });
+  if (!selectedRuleId) {
+    return;
+  }
 
   const updatedYml: WorkflowsEntries = removeWorkflowEntryByRuleId(
     workflowsEntries,

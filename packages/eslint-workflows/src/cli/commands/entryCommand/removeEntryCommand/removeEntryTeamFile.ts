@@ -22,6 +22,9 @@ export const removeEntryTeamFile: CommandHandler = async () => {
     message: "Select entry",
     options: entriesRuleIds,
   });
+  if (!selectedRuleId) {
+    return;
+  }
 
   const matchingEntry = findWorkflowEntryByRuleId(
     workflowsEntries,
@@ -36,6 +39,9 @@ export const removeEntryTeamFile: CommandHandler = async () => {
     message: "Select team",
     options: teamIds,
   });
+  if (!selectedTeam) {
+    return;
+  }
 
   const fileNames = getWorkflowEntryTeamFiles(matchingEntry, selectedTeam);
   const selectedFiles = await showMultiSelectPrompt({

@@ -24,6 +24,9 @@ export const addEntryCommand: CommandHandler = async () => {
     message: "Select rule to add",
     options: availableRuleIds,
   });
+  if (!selectedRuleId) {
+    return;
+  }
 
   const { exit } = await handleExistingEntryFlow(
     workflowsEntries,

@@ -4,7 +4,7 @@ type ShowSelectPromptArgs = { options: string[]; message: string };
 
 export const showSelectPrompt = async (
   args: ShowSelectPromptArgs
-): Promise<string> => {
+): Promise<string | undefined> => {
   const { options, message } = args;
 
   const choices: Choice[] = options.map((v) => {
@@ -18,5 +18,5 @@ export const showSelectPrompt = async (
     message,
     choices,
   });
-  return value as string;
+  return value;
 };

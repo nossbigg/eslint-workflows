@@ -21,6 +21,9 @@ export const removeEntryTeam: CommandHandler = async () => {
     message: "Select entry",
     options: entriesRuleIds,
   });
+  if (!selectedRuleId) {
+    return;
+  }
 
   const matchingEntry = findWorkflowEntryByRuleId(
     workflowsEntries,
