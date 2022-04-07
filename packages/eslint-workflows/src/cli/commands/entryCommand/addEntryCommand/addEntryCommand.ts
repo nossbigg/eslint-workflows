@@ -10,8 +10,9 @@ import {
   WorkflowsEntries,
   saveWorkflowsEntries,
   stripPrefixSlash,
+  getWorkflowsEntriesRuleIds,
 } from "../../../../common";
-import { showSelectPrompt } from "../../../prompts";
+import { showConfirmPrompt, showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
 
 export const addEntryCommand: CommandHandler = async () => {
@@ -24,6 +25,14 @@ export const addEntryCommand: CommandHandler = async () => {
     options: availableRuleIds,
   });
 
+  const { exit } = await handleExistingEntryFlow(
+    workflowsEntries,
+    selectedRuleId
+  );
+  if (exit) {
+    return;
+  }
+
   const newEntry = makeNewWorkflowEntry(commonConfig, selectedRuleId);
   const updatedYml: WorkflowsEntries = {
     ...workflowsEntries,
@@ -31,6 +40,25 @@ export const addEntryCommand: CommandHandler = async () => {
   };
 
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+};
+
+const handleExistingEntryFlow = async (
+  wfe: WorkflowsEntries,
+  selectedRuleId: string
+) => {
+  const existingRuleIds = getWorkflowsEntriesRuleIds(wfe);
+  const hasExistingEntry = !!existingRuleIds.find(
+    (ruleId) => ruleId === selectedRuleId
+  );
+  if (!hasExistingEntry) {
+    return { exit: false };
+  }
+
+  const confirm = await showConfirmPrompt({
+    initial: false,
+    message: "Overwrite existing entry?",
+  });
+  return { exit: !confirm };
 };
 
 const makeNewWorkflowEntry = (
