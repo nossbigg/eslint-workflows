@@ -16,6 +16,10 @@ import {
 } from "../../../../common";
 import { showConfirmPrompt, showSelectPrompt } from "../../../prompts";
 import { CommonConfig } from "../../../../common/rcfile/typedefs";
+import {
+  showChangesAppliedMessage,
+  showNoChangesAppliedMessage,
+} from "../../common";
 
 export const addEntryCommand: CommandHandler = async () => {
   const commonConfig = getCommonConfig();
@@ -29,6 +33,7 @@ export const addEntryCommand: CommandHandler = async () => {
     options: availableRuleIds,
   });
   if (!selectedRuleId) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -37,6 +42,7 @@ export const addEntryCommand: CommandHandler = async () => {
     selectedRuleId
   );
   if (exit) {
+    showNoChangesAppliedMessage();
     return;
   }
 
@@ -49,6 +55,7 @@ export const addEntryCommand: CommandHandler = async () => {
       newEntry
     );
     saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+    showChangesAppliedMessage();
     return;
   }
 
@@ -57,6 +64,7 @@ export const addEntryCommand: CommandHandler = async () => {
     entries: [...workflowsEntries.entries, newEntry],
   };
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, updatedYml);
+  showChangesAppliedMessage();
 };
 
 const handleExistingEntryFlow = async (
