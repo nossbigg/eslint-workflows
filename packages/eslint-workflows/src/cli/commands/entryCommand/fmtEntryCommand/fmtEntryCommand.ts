@@ -1,5 +1,9 @@
-import { getCommonConfig, saveWorkflowsEntries } from "../../../../common";
-import { showChangesAppliedMessage } from "../../common";
+import chalk from "chalk";
+import {
+  consoleLog,
+  getCommonConfig,
+  saveWorkflowsEntries,
+} from "../../../../common";
 import { CommandHandler } from "../../typedefs";
 
 export const fmtEntryCommand: CommandHandler = async () => {
@@ -7,5 +11,5 @@ export const fmtEntryCommand: CommandHandler = async () => {
   const { workflowsEntries, rcFile } = commonConfig;
 
   saveWorkflowsEntries(rcFile.workflowsEntriesPath, workflowsEntries);
-  showChangesAppliedMessage();
+  consoleLog(chalk.green("✅ yml formatted!"));
 };
