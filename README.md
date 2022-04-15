@@ -39,10 +39,10 @@
 
     This step creates the following files:
 
-- `.eslint-workflowsrc.js` (config for `eslint-workflows`)
-- `eslint-workflows-entries.yml` (tracks mutes)
+    - `.eslint-workflowsrc.js` (config for `eslint-workflows`)
+    - `eslint-workflows-entries.yml` (tracks mutes)
 
-3. Follow instructions to apply manual changes to your repo
+3.  Follow instructions to apply manual changes to your repo
 
 - `package.json` (Add lint:json task to package.json)
 - `.gitignore` (Add eslint output file to .gitignore)
@@ -58,9 +58,7 @@ You can do this with ESLint by using `--max-warnings=0` argument, eg:
 eslint --max-warnings=0 .
 ```
 
-# API
-
-## CLI
+# API: CLI
 
 **Top-level Commands**
 
@@ -90,15 +88,15 @@ eslint --max-warnings=0 .
 
    Sets up baseline config for eslint-workflows usage in the current project
 
-## Node.js
+# API: Node.js
 
 1. `getWorkflowOverrides()`
 
    Computes overrides from yml file to be applied to ESLint config.
 
-# Tool Configuration
+# Configuration
 
-1. `.eslint-workflowsrc.js`
+## .eslint-workflowsrc.js
 
 Config for `eslint-workflows`.
 
@@ -122,7 +120,7 @@ Note:
 
 - For all path-related properties, you may use absolute paths or relative paths (will be resolved against `process.cwd()`)
 
-2. `eslint-workflows-entries.yml`
+## eslint-workflows-entries.yml
 
 Tracks mutes at the file-level + rule-level.
 
