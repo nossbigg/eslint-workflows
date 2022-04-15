@@ -29,7 +29,7 @@ export const cliEntrypoint = (): void => {
         )
         .command(
           "fmt",
-          "Applies formatter to yml file",
+          "Apply formatter to yml file",
           _.noop,
           swallowErrors(fmtEntryCommand)
         )
@@ -39,7 +39,7 @@ export const cliEntrypoint = (): void => {
     })
     .command(
       "init",
-      "Sets up eslint-workflows for current project",
+      "Set up eslint-workflows for current project",
       _.noop,
       swallowErrors(initCommand)
     )

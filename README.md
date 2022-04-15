@@ -62,11 +62,11 @@ eslint --max-warnings=0 .
 
 **Top-level Commands**
 
-| Command | Detail                                       |
-| ------- | -------------------------------------------- |
-| `view`  | Print yml file contents                      |
-| `entry` | Interact with entries.yml file               |
-| `init`  | Sets up eslint-workflows for current project |
+| Command | Detail                                      |
+| ------- | ------------------------------------------- |
+| `view`  | Print yml file contents                     |
+| `entry` | Interact with entries.yml file              |
+| `init`  | Set up eslint-workflows for current project |
 
 **Commands**
 
@@ -86,7 +86,7 @@ eslint --max-warnings=0 .
 
 1. `eslint-workflows init`
 
-   Sets up baseline config for eslint-workflows usage in the current project
+   Set up baseline config for eslint-workflows usage in the current project
 
 # API: Node.js
 
