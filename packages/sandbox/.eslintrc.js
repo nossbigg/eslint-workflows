@@ -12,6 +12,9 @@ const makeConfig = () => {
     },
     extends: ["eslint:recommended"],
     overrides: [...workflowOverrides],
+    rules: {
+      "no-fallthrough": 1,
+    },
   };
   return config;
 };
