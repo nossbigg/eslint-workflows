@@ -32,7 +32,10 @@ export const cliEntrypoint = (): void => {
           "Applies formatter to yml file",
           _.noop,
           swallowErrors(fmtEntryCommand)
-        );
+        )
+        .demandCommand()
+        .recommendCommands()
+        .strict();
     })
     .command(
       "init",
