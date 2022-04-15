@@ -44,31 +44,110 @@
 
 3. Follow instructions to apply manual changes to your repo
 
--TBC-
-
-- package.json
-- .gitignore
-- .eslintrc.js
+- `package.json` (Add lint:json task to package.json)
+- `.gitignore` (Add eslint output file to .gitignore)
+- `.eslintrc.js` (Add getWorfklowOverrides() to .eslintrc.js)
 
 **Recommended setup**
 
--TBC-
+For an ideal developer experience, it is recommended that your ESLint output is empty (ie. `0 errors, 0 warnings`), so that developers know **whether their changes has introduced any lint errors**
 
-- `0 error + 0 warn`
+You can do this with ESLint by using `--max-warnings=0` argument, eg:
+
+```bash
+eslint --max-warnings=0 .
+```
 
 # API
 
-**CLI**
+## CLI
 
--TBC-
+**Top-level Commands**
 
-**Node.js**
+| Command | Detail                                       |
+| ------- | -------------------------------------------- |
+| `view`  | Print yml file contents                      |
+| `entry` | Interact with entries.yml file               |
+| `init`  | Sets up eslint-workflows for current project |
 
--TBC-
+**Commands**
+
+1. `eslint-workflows view`
+
+   Print yml file contents, useful for quickly viewing yml file contents.
+
+1. `eslint-workflows entry`
+
+   Interact with entries.yml file.
+
+   Subcommands:
+
+   - `entry add`: Add an entry
+   - `entry remove`: Remove an entry or part of an entry
+   - `entry fmt`: Apply formatter to yml file
+
+1. `eslint-workflows init`
+
+   Sets up baseline config for eslint-workflows usage in the current project
+
+## Node.js
+
+1. `getWorkflowOverrides()`
+
+   Computes overrides from yml file to be applied to ESLint config.
 
 # Tool Configuration
 
--TBC-
+1. `.eslint-workflowsrc.js`
+
+Config for `eslint-workflows`.
+
+Schema:
+
+```js
+module.exports = {
+  eslintOutputPath: "eslint-workflows/eslint-output.json",
+  codeownersPath: ".github/CODEOWNERS",
+  workflowsEntriesPath: "eslint-workflows/eslint-workflows-entries.yml",
+};
+```
+
+Properties:
+
+- `eslintOutputPath` (required): Path to `eslint output` json
+- `codeownersPath` (optional): Path to `CODEOWNERS`
+- `workflowsEntriesPath` (required): Path to `yml` file
+
+Note:
+
+- For all path-related properties, you may use absolute paths or relative paths (will be resolved against `process.cwd()`)
+
+2. `eslint-workflows-entries.yml`
+
+Tracks mutes at the file-level + rule-level.
+
+Example:
+
+```yml
+entries:
+  - ruleId: no-unused-vars
+    teams:
+      "@team-a":
+        files:
+          - src/team-a/file-a.js
+      "@team-b":
+        files:
+          - src/team-b/file-b.js
+      _NO_OWNER_:
+        files:
+          - src/no-owner/no-owner.js
+```
+
+Properties:
+
+- `entries`: Represents an entry in the yml file
+- `entry`: Represents a combination of a rule + teams
+- `teams`: Represents individual team with related files for muting
 
 # Developing
 
