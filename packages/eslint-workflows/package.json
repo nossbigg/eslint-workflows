@@ -1,7 +1,7 @@
 {
   "name": "@nossbigg/eslint-workflows",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.0.0-rc4",
   "main": "dist/index.js",
   "bin": {
     "eslint-workflows": "./dist/cli-entry.js"
@@ -14,7 +14,9 @@
     "team",
     "scale"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "cleanDist": "rm -rf dist/",
     "build": "yarn cleanDist && tsc",
