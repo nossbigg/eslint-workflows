@@ -30,6 +30,34 @@
 
 4. Contains an intuitive CLI interface to let you to **safely modify the `.yml` file**.
 
+# Basic Usage Guide
+
+## 1. Adding an entry to yml file
+
+_Scenario: You have just added a new eslint rule, but you want to incrementally make changes to adhere to the rule whilst preserving a clean eslint output._
+
+1. Run `yarn lint:json` to generate a fresh copy of your eslint results
+1. Run `eslint-workflows entry add` to add a new entry to the yml file
+1. Select the rule you wish to add
+1. Confirm that `eslint-workflows` had made changes to your yml file
+1. Confirm that lint errors related to the rule are no longer emitted by `eslint`
+
+## 2. Removing an entry from yml file
+
+_Scenario: You have applied changes to adhere to rule, and want eslint to enforce the rule onto a given file._
+
+1. Run `eslint-workflows entry remove` to remove an entry from yml file
+1. Select the granularity (eg. Entry > Team > File)
+1. Follow requisite instructions as per selected granlarity
+1. Confirm that `eslint-workflows` had made changes to your yml file
+1. Confirm that lint errors related to the rule are now emitted by `eslint`
+
+## 3. Viewing yml file contents
+
+_Scenario: You want to view the yml file contents in a pretty-printed format._
+
+1. Run `eslint-workflows view` to view the contents of the yml file in a pretty-printed format.
+
 # Setup
 
 **Initial setup**
