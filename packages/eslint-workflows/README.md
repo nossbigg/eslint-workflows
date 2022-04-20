@@ -20,4 +20,4 @@ Note: For usage and intro, please refer to the landing page's [README](../../REA
 
 ## Publishing
 
-1. `yarn publish`
+1. `yarn publish --access=public`
