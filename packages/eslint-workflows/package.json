@@ -19,7 +19,8 @@
     "cleanDist": "rm -rf dist/",
     "build": "yarn cleanDist && tsc",
     "dev": "yarn cleanDist && tsc --watch",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "cp-readme": "cp ../../README.md README.md"
   },
   "devDependencies": {
     "@types/eslint": "^8.4.1",
