@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { getProjectRoot } from "../path";
 import { EslintOutput } from "./typedefs";
 
 export const getAvailableRuleIds = (output: EslintOutput): string[] => {
@@ -19,8 +20,7 @@ export const getFilenamesByRuleId = (
     return hasMatchingRuleId;
   });
   const fileNames = matches.map((r) => r.filePath);
-
-  const { cwd } = output.metadata;
+  const cwd = getProjectRoot();
   const withoutCwdPrefix = fileNames.map((f) => f.replace(cwd, ""));
   return withoutCwdPrefix;
 };
