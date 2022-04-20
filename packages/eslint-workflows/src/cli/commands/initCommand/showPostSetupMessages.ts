@@ -29,7 +29,7 @@ ${rcFile.eslintOutputPath}`,
     content: `// .eslintrc.js
 const { getWorkflowOverrides } = require("@nossbigg/eslint-workflows");
 module.exports = {
-  overrides: getWorkflowsOverrides(),
+  overrides: getWorkflowOverrides(),
 };`,
   };
 
