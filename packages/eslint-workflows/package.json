@@ -7,7 +7,14 @@
     "eslint-workflows": "./dist/cli-entry.js"
   },
   "license": "MIT",
-  "keywords": ["eslint", "workflows", "monorepo", "team", "scale"],
+  "keywords": [
+    "eslint",
+    "workflows",
+    "monorepo",
+    "team",
+    "scale"
+  ],
+  "files": ["dist"],
   "scripts": {
     "cleanDist": "rm -rf dist/",
     "build": "yarn cleanDist && tsc",
